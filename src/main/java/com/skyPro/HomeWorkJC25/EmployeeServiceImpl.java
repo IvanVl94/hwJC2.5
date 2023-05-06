@@ -2,59 +2,61 @@ package com.skyPro.HomeWorkJC25;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final List<Employee> employees = new ArrayList<>();
+    private final Map<String, Employee> employees = new HashMap<>();
     private final int length = 9;
 
     @Override
-    public Employee addEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
 
-        employees.add(employee);
+    public String addEmployee(String firstName, String lastName) {
+        String employeeKey = employeeKey(firstName, lastName);
 
-        if (!employees.contains(employee)) {
+        employees.put(employeeKey, new Employee(firstName, lastName));
+
+        if (!employees.containsKey(employeeKey)) {
             throw new EmployeeAlreadyAddedException("Такой сотрудник уже есть");
         }
         if (employees.size() > length) {
-            throw new EmployeeStorageIsFullException("Коллекция переполнена}");
+            throw new EmployeeStorageIsFullException("Коллекция переполнена");
         }
-        return employee;
+        return employeeKey;
     }
 
     @Override
-    public Employee removeEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
+    public String removeEmployee(String firstName, String lastName) {
+        String employeeKey = employeeKey(firstName, lastName);
 
-        if (!employees.contains(employee)) {
+        if (!employees.containsKey(employeeKey)) {
             throw new EmployeeNotFoundException("Такой сотрудник не найден");
         }
-        employees.remove(employee);
-        return employee;
+
+        employees.remove(employeeKey);
+
+        return  employeeKey;
     }
 
 
     @Override
-    public Employee findEmployee(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
+    public String findEmployee(String firstName, String lastName) {
+        String employeeKey = employeeKey(firstName, lastName);
 
-        if (!employees.contains(employee))
+        if (!employees.containsKey(employeeKey))
             throw new EmployeeNotFoundException("Такой сотрудник не найден");
 
-        for (Employee value : employees) {
-            if (value.equals(employee)) {
-                return employee;
-            }
-        }
-        return employee;
+        return employeeKey;
     }
 
     @Override
-    public List<Employee> getAllEmployee() {
+    public Map<String, Employee> getAllEmployee() {
         return employees;
+    }
+
+    public String employeeKey(String firstName, String lastName) {
+        return firstName+" " +lastName;
     }
 }

@@ -2,11 +2,13 @@ package com.skyPro.HomeWorkJC25;
 
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Map;
+
 @Service
 public interface EmployeeService {
-    Employee addEmployee (String firstName, String lastName);
-    Employee removeEmployee (String firstName, String lastName);
-    Employee findEmployee (String firstName, String lastName);
-    List<Employee> getAllEmployee();
+    String addEmployee (String firstName, String lastName);
+    String removeEmployee (String firstName, String lastName);
+    String findEmployee (String firstName, String lastName);
+    Map<String, Employee> getAllEmployee();
+    String employeeKey(String firstName, String lastName);
 }
