@@ -1,43 +1,55 @@
 package com.skyPro.HomeWorkJC25;
 
-import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.Map;
 
-@Service
-public class EmployeeServiceImpl implements EmployeeService {
 
+
+public abstract class EmployeeServiceImpl implements EmployeeService {
+
+    private static final int EMPLOYEES_STORAGE_SIZE = 100;
     private final Map<String, Employee> employees = new HashMap<>();
-    private final int length = 9;
+
+
+    public Employee addEmployee() {
+        return addEmployee();
+    }
 
     @Override
-
-    public String addEmployee(String firstName, String lastName) {
+    public String addEmployee(String firstName, String lastName, Integer salary, Integer department) {
         String employeeKey = employeeKey(firstName, lastName);
 
-        employees.put(employeeKey, new Employee(firstName, lastName));
+        employees.put(employeeKey, new Employee(firstName, lastName, salary, department));
 
         if (!employees.containsKey(employeeKey)) {
             throw new EmployeeAlreadyAddedException("Такой сотрудник уже есть");
         }
-        if (employees.size() > length) {
+        if (employees.size() == EMPLOYEES_STORAGE_SIZE)
             throw new EmployeeStorageIsFullException("Коллекция переполнена");
+        {
+
+
         }
+
         return employeeKey;
     }
 
     @Override
-    public String removeEmployee(String firstName, String lastName) {
-        String employeeKey = employeeKey(firstName, lastName);
+    public String removeEmployee(String firstName, String lastName, Integer salary, Integer department) {
+        String employeeKey = employeeKey(firstName, lastName, salary, department);
 
         if (!employees.containsKey(employeeKey)) {
             throw new EmployeeNotFoundException("Такой сотрудник не найден");
         }
 
-        employees.remove(employeeKey);
+        Employee remove = employees.remove(employeeKey);
 
-        return  employeeKey;
+        return employeeKey;
+    }
+
+    @Override
+    public String findEmployee(String firstName, String lastName, Integer salary, Integer department) {
+        return null;
     }
 
 
@@ -51,12 +63,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeKey;
     }
 
-    @Override
     public Map<String, Employee> getAllEmployee() {
         return employees;
     }
 
+
     public String employeeKey(String firstName, String lastName) {
-        return firstName+" " +lastName;
+        return firstName + " " + lastName;
     }
 }
+
+
