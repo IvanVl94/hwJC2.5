@@ -11,17 +11,14 @@ import java.util.Map;
 @RestController
 @RequestMapping("/departments")
 public class DepartmentController {
-    private final  DepartmentServiseImpl  departmentServiseImpl;
-    public DepartmentController(DepartmentServiseImpl departmentServiseImpl) {
+    private final DepartmentServise departmentServiseImpl;
+    public DepartmentController(DepartmentServise departmentServiseImpl) {
         this.departmentServiseImpl= departmentServiseImpl;
 
     }
-
     @GetMapping("/max-salary")
-
     public Employee getEmployeeMaxSalary(@RequestParam("departmentId") Integer departments) {
         return departmentServiseImpl.getEmployeeMaxSalary(departments);
-
     }
     @GetMapping("/min-salary")
     public Employee getEmployeeMinSalary(@RequestParam("departmentId") Integer departments) {
@@ -32,6 +29,6 @@ public class DepartmentController {
     public Map <Integer, List<Employee>> getGroupDepartmens (
             @RequestParam (name = "departmentID", required = false)
             Integer departmentId){
-        return  null;
+        return  departmentServiseImpl.getGroupDepartments(departmentId);
     }
 }
