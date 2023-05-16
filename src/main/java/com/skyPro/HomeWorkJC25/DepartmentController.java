@@ -29,6 +29,6 @@ public class DepartmentController {
     public Map <Integer, List<Employee>> getGroupDepartmens (
             @RequestParam (name = "departmentID", required = false)
             Integer departmentId){
-        return  departmentServiseImpl.getGroupDepartments(departmentId);
+        return  null;
     }
 }
