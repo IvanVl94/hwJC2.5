@@ -11,24 +11,24 @@ import java.util.Map;
 @RestController
 @RequestMapping("/departments")
 public class DepartmentController {
-    private final DepartmentServise departmentServiseImpl;
-    public DepartmentController(DepartmentServise departmentServiseImpl) {
-        this.departmentServiseImpl= departmentServiseImpl;
+    private final DepartmentServise departmentServise;
+    public DepartmentController(DepartmentServise departmentServise) {
+        this.departmentServise= departmentServise;
 
     }
     @GetMapping("/max-salary")
     public Employee getEmployeeMaxSalary(@RequestParam("departmentId") Integer departments) {
-        return departmentServiseImpl.getEmployeeMaxSalary(departments);
+        return departmentServise.getEmployeeMaxSalary(departments);
     }
     @GetMapping("/min-salary")
     public Employee getEmployeeMinSalary(@RequestParam("departmentId") Integer departments) {
-        return departmentServiseImpl.getEmployeeMinSalary(departments);
+        return departmentServise.getEmployeeMinSalary(departments);
 
     }
     @GetMapping("/all")
     public Map <Integer, List<Employee>> getGroupDepartmens (
             @RequestParam (name = "departmentID", required = false)
             Integer departmentId){
-        return  null;
+        return  departmentServise.getGroupDepartments(departmentId);
     }
 }
