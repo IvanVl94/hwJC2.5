@@ -1,5 +1,6 @@
 package com.skyPro.HomeWorkJC25;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,13 +16,18 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
     @GetMapping("/add")
-    public Employee addEmployee(
+    public ResponseEntity<Employee>  addEmployee(
             @RequestParam("firstName") String firstName,
             @RequestParam("lastName") String lastName,
             @RequestParam ("salary") Integer salary,
             @RequestParam ("department") Integer department
     ){
-        return employeeService.addEmployee(firstName, lastName, salary, department);
+
+        if (EmployeeValidator.validate(firstName,lastName)){
+            return ResponseEntity.ok(employeeService.addEmployee(firstName, lastName, salary,department));
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
     @GetMapping("/remove")
     public void removeEmployee(
